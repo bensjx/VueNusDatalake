@@ -1,0 +1,8 @@
+{
+  "name": "vue-datalake-visualisation",
+  "version": "1.0.0",
+  "description": "Make use of vue to visualise nus datalake.",
+  "main": "index.html",
+  "dependencies": {},
+  "keywords": []
+}
