@@ -22,3 +22,6 @@ Only activate the extension when you are clicking on the button to retrieve data
 <br>
 
 Also, once you committed your changes, you will be able to run your web page from github hosted pages WITHOUT the need for that extension. It is only needed when you are testing your web page and running it from your local system.
+<br>
+
+If you were to ever open this in codesandbox, please do not click on papaparse.min.js. Your sandbox will crash.
