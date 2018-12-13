@@ -1,6 +1,8 @@
 # VueNusDatalake
 This repo make use of Vue to visualize the NUS Datalake synthetic data. We pull data directly from the spreadsheet tabs as csv data and display them in graph and charts.
 
+Demo: https://bensjx.github.io/VueNusDatalake
+
 ## Packages
 
 1. Papaparse: Load csv data from google sheets and transform them into an object to be processed in Vue.
