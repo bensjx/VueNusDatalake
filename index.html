@@ -13,17 +13,25 @@
 
 		<hr>
 
-		<h3> Bar chart for personal_data country of citizency </h3>
-		<button @click="getData('pd_ctry')"> Generate chart </button>
-		<bar-chart :data="pd_ctry_data" height="1000px"></bar-chart>
+		<h3> Pie chart for module_enrolment final grades </h3>
+		<button @click="getData('module_final')"> Generate chart </button>
+		<pie-chart :data="module_final_data"></pie-chart>
 
 		<hr>
+
+		<h3> Bar chart for personal_data country of citizency </h3>
+		<button @click="getData('pd_ctry')"> Generate chart </button>
+		<bar-chart :data="pd_ctry_data" height="1000px"></bar-chart> <!-- Adjusted the height as there was a lot of data -->
+
+		<hr>
+
+
 
 		<!-- Include more charts over here -->
 		
 	</div>
 
-	<script src="./papaparse.min.js"></script>	<!-- We will be using papaparse to transform from csv to json -->
+	<script src="./papaparse.min.js"></script>	<!-- We will be using papaparse to retrieve data from google sheets -->
 	<script src="https://unpkg.com/vue"></script>
 	<script src="https://unpkg.com/chart.js@2.7.2/dist/Chart.bundle.js"></script>
 	<script src="https://unpkg.com/vue-chartkick@0.4.0"></script>
@@ -33,6 +41,7 @@
 	    el: "#app",
 	    data: {
 			pd_gender_data: [["M",0],["F",0]],
+			module_final_data: [],
 			pd_ctry_data: [],
 			// ... Include more arrays depending on which data you want to visualise over here
 	    },
@@ -41,9 +50,11 @@
 			getData(type){
 				if (type == "pd_gender"){
 					this.getDataFromURL("https://docs.google.com/spreadsheets/d/14dZQ5XLFG5-1NNGYTgclrTXlkEUiSWWiOCdkjNZaAfQ/gviz/tq?tqx=out:csv&sheet=personal_data",type);
+				} else if (type == "module_final"){
+					this.getDataFromURL("https://docs.google.com/spreadsheets/d/14dZQ5XLFG5-1NNGYTgclrTXlkEUiSWWiOCdkjNZaAfQ/gviz/tq?tqx=out:csv&sheet=module_enrolment",type);
 				} else if (type == "pd_ctry"){
 					this.getDataFromURL("https://docs.google.com/spreadsheets/d/14dZQ5XLFG5-1NNGYTgclrTXlkEUiSWWiOCdkjNZaAfQ/gviz/tq?tqx=out:csv&sheet=personal_data",type);
-				}
+				} 
 			},
 			// This function serves to transform the google spreadsheet into a readable data for us to mutate and place inside our charts
 			getDataFromURL(url,type){
@@ -53,9 +64,11 @@
 					complete: function(results) {
 						if (type == "pd_gender"){
 							curr.personal_data_gender(results);
+						} else if (type == "module_final"){
+							curr.module_final(results);
 						} else if (type == "pd_ctry"){
 							curr.personal_data_ctry(results);
-						}
+						} 
 					}
 				});	
 			},
@@ -85,6 +98,28 @@
 	  					curr.pd_gender_data.pop();
 					}
 				}
+			},
+			module_final: function(results){
+				var curr = this;
+				var temp = [];
+				for (i = 1; i < results.data.length; i++){ // Skip index 0 as that is the heading
+					if (!temp.includes(results.data[i][9])){
+						temp.push(results.data[i][9]);
+						curr.module_final_data.push([results.data[i][9],1]); // First data
+					} else {
+						for (j = 0; j < curr.module_final_data.length; j++){
+							if (curr.module_final_data[j][0] == results.data[i][9]){
+								curr.module_final_data[j][1]++;
+								curr.module_final_data.push([1,1]); 
+	  							curr.module_final_data.pop();
+							}
+						}
+					}
+				}
+				curr.module_final_data.sort(curr.sort_data);
+				// Remember to mutate the data
+				curr.module_final_data.push([1,1]); 
+	  			curr.module_final_data.pop();
 			},
 			personal_data_ctry: function(results){
 				var curr = this;
