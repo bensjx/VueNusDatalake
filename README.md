@@ -14,7 +14,7 @@ https://www.papaparse.com/
 2. Vue Chartkicks: Used to visualise our data. This is a very simple way to display charts (in just 1 line). If you want to display more complicated charts you might want to consider other packages.
 https://chartkick.com/vue
 
-## Note
+## CORS error
 Since this version does not run on codesandbox, you will have to download the file, edit and run it all on your local system. Please do note that if you try to run the web page from your local system, you will encounter a cross-origin error when clicking on the button to retrieve data from google spreadsheet. To resolve this, download the following extension: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en. I have yet to find a simpler method to overcome this error other than making use of the extension.
 <br>
 
